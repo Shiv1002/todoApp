@@ -50,31 +50,38 @@ function App() {
     <div className="App">
       <div className='user-input'>
         <div className='task-input'>
-          <input type='text' ref={userInput} placeholder='Set a ToDo' onChange={(e) => setTask(e.target.value)} />
+          <input type='text'  ref={userInput} className='input-tag but border-end-0' placeholder='Set a Task' onChange={(e) => setTask(e.target.value)} />
         </div>
-        <button onClick={addTodo}>Add</button>
+        <button className='but border-start-0 icons' onClick={addTodo}>➡</button>
       </div>
       <div className='todo-container'>
-        <ul className='todo-list'>
-          {todos.map((todo) => <li className='todo' key={todo.title}>
+        <ul className='todo-list '>
+          {todos.map((todo) => <li className='todo todo-create-animate' key={todo.title}>
             <span>{todo.title}</span>
-            <button onClick={(e) => {
+            <div  className='task-button'>
+            <button className='but icons' onClick={(e) => {
               todo.isComplete = true
               e.target.parentElement.classList.toggle('slashed-text')
               console.log(todo)
-            }
-            }>Done</button>
-            <button onClick={() => {       setTodoDelete(todo)  }}>Delete</button>
-          </li>)}
+            }}
+            title='Finished'
+            >✔</button>
+            <button className='but icons' style={{color:'red'}} onClick={() => {       setTodoDelete(todo)  }}
+            title='Delete'> ➖</button>
+          
+            </div >
+            </li>)}
         </ul>
       </div>
       {
-        showConfirm ? <>
+        showConfirm ? <> 
           <div className='confirmDelPop'>
-            <span>Are you sure to delete?</span>
-            <button onClick={() => { confirmDelete(); setShowConfirm(false) }}>Yes</button>
-            <button onClick={() => setShowConfirm(false)}>Cancel</button>
-          </div>
+            <span>Sure? It is not Completed</span>
+            <div className='task-button'>
+            <button style={{color:'white',backgroundColor:'red'}} className='but' onClick={() => { confirmDelete(); setShowConfirm(false) }}>Sure</button>
+            <button style={{color:'white',backgroundColor:'rgb(0, 204, 255)'}} className='but' onClick={() => setShowConfirm(false)}>Cancel</button>
+            </div>
+            </div>
           <div className='overlay'>
           </div>
         </> : null

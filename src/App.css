@@ -1,3 +1,7 @@
+*{
+  margin: 0;
+  padding: 0;
+}
 #root{
   height: 100vh;
   background-color: rgb(0, 204, 255);
@@ -6,7 +10,7 @@
 .App {
   height: 100%;
   text-align: center;
-  background-color: red;
+  background:linear-gradient(135deg,rgb(255, 130, 0),rgb(255, 255, 0))
 }
 .slashed-text{
   text-decoration: line-through;
@@ -16,10 +20,15 @@
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  background-color: rgb(164, 164, 164);
-  height: 20vh;
-  width: 30vw;
+  background-color: rgb(255, 255, 255);
+  min-height: 15vh;
+  min-width: 30vw;
   z-index: 2;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .overlay{
   position: absolute;
@@ -28,4 +37,101 @@
   height: 100vh;
   width: 100vw;
   z-index: 1;
+}
+ul{
+  list-style: none;
+  padding-inline-start:0rem;
+}
+.but{
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  padding: 1rem;
+}
+.user-input{
+  display: flex;
+  justify-content: center;
+  padding: 0.6rem;
+}
+.border-end-0{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.border-start-0{
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.icons{
+  padding-bottom: 0;
+  padding-top: 0;
+  color: green;
+}
+.todo{
+  background-color: white;
+  margin: 1rem auto;
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: larger;
+  border-radius: 1rem;
+}
+.task-button .but{
+  background-color: transparent;
+  margin: 0.6rem 0.4rem;
+}
+.todo *{
+  margin: 0.6rem;
+}
+
+.input-tag{
+  font-size: large;
+}
+.user-input .icons{
+  background-color: rgb(223, 223, 223);
+  color: #000;
+}
+.user-input .icons:hover{
+  background-color: rgb(195, 195, 195);
+}
+.todo-create-animate{
+  /* animation-name: todo-create;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  box-shadow: 0px 3px 3px 2px #0000004d; */
+}
+.todo-delete-animate{
+
+}
+@keyframes todo-create {
+  0% {
+opacity: 0;
+scale: 0.8;
+transform: translate3d(0,10rem,0rem);
+  }
+  100%{
+opacity: 1;
+transform: translate3d(0,0,0);
+  }
+}
+@media only screen and (max-width:980px){
+  *{
+    font-size: medium !important;
+  }
+  .todo{
+    width: 50%;
+  }
+}
+@media only screen and (max-width:760px){
+  *{
+    font-size: small !important;
+  }
+  .todo{
+    width: 60%;
+  }
+}
+@media only screen and (max-width:480px){
+  .todo{
+    width: 90%;
+  }
 }
