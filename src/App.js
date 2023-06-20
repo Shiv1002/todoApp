@@ -1,13 +1,12 @@
-import {  useRef, useState } from 'react';
+import {  useEffect, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
-  const [todos, setTodos] = useState([{ title: 'kl', isComplete: false }])
+  const [todos, setTodos] = useState([])
   const [task, setTask] = useState('')
   const [showConfirm, setShowConfirm] = useState(false)
   const [todoDelete, setTodoDelete] = useState(null)
   const userInput = useRef(null)
-  
   const addTodo = () => {
     var sameValue = false
     userInput.current.value = ''
@@ -22,24 +21,31 @@ function App() {
       return
     }
     setTodos([{ title: task, isComplete: false }, ...todos])
+    setTask('')
   }
   const deleteTodo = () => {
     //settodos start
+    console.log(todoDelete)
     if (todoDelete && !todoDelete.isComplete) {
+      
       setShowConfirm(true)
     } else {
-      confirmDelete(todoDelete)
+     
+      confirmDelete()
     }
-
   }
   const confirmDelete = () => {
+    console.log('confirm delet',todoDelete)
     setTodos(todos.filter(ele => {
       if (ele === todoDelete) {
-        console.log(ele)
+        console.log("found a match",ele)
         return false
-      } else return true
+      } else {console.log(ele);return true}
     }))
   }
+  useEffect(()=>{deleteTodo()},[todoDelete])
+
+  
   return (
     <div className="App">
       <div className='user-input'>
@@ -55,9 +61,10 @@ function App() {
             <button onClick={(e) => {
               todo.isComplete = true
               e.target.parentElement.classList.toggle('slashed-text')
+              console.log(todo)
             }
             }>Done</button>
-            <button onClick={() => { setTodoDelete(todo); deleteTodo() }}>Delete</button>
+            <button onClick={() => {       setTodoDelete(todo)  }}>Delete</button>
           </li>)}
         </ul>
       </div>
