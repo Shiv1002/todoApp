@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { animate, motion, stagger, AnimatePresence, spring } from 'framer-motion';
+import { animate, motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 
 function App() {
-  const [todos, setTodos] = useState([{ title: 'as', isComplete: false }, { title: 'dfd', isComplete: false }])
+  const [todos, setTodos] = useState([])
   const [task, setTask] = useState('')
   const [showConfirm, setShowConfirm] = useState(false)
   const [todoDelete, setTodoDelete] = useState(null)
@@ -40,7 +40,7 @@ function App() {
     }
     setTodos([{ title: task, isComplete: false }, ...todos])
     setTask('')
-    animate('li',{translateY:[0,3]},{duration:5,type:'spring',damping:4})
+    animate('li', { translateY: [0, 3] }, { duration: 5, type: 'spring', damping: 4 })
   }
   const deleteTodo = () => {
     //settodos start
@@ -62,7 +62,7 @@ function App() {
       }))
     else return
     setTodoDelete(null)
-    
+
   }
 
 
@@ -83,16 +83,16 @@ function App() {
           whileHover={{ scale: 1.01 }}
           className='but border-start-0 icons' onClick={addTodo}>➡</motion.button>
       </motion.div>
-      
+
       <div className='todo-container'>
         <ul className='todo-list '>
           <AnimatePresence>
-            {todos.map((todo,i) =>
+            {todos.map((todo, i) =>
               <motion.li
-                initial={{ opacity: 0,translateY:300,scale:0.1 }}
-                animate={{ opacity: 1,translateY:0,scale:1}}
-                exit={{opacity: 0,translateY:300,scale:0.1}}
-                transition={{ duration:1,delay:i*0.2}}
+                initial={{ opacity: 0, translateY: 300, scale: 0.1 }}
+                animate={{ opacity: 1, translateY: 0, scale: 1 }}
+                exit={{ opacity: 0, translateY: 300, scale: 0.1 }}
+                transition={{ duration: 1, delay: i * 0.2 }}
                 className='todo todo-create-animate' key={todo.title}>
                 <span>{todo.title}</span>
                 <div className='task-button'>
