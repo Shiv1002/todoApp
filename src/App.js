@@ -40,6 +40,7 @@ function App() {
     }
     setTodos([{ title: task, isComplete: false }, ...todos])
     setTask('')
+    animate('li',{translateY:[0,3]},{duration:5,type:'spring',damping:4})
   }
   const deleteTodo = () => {
     //settodos start
@@ -61,6 +62,7 @@ function App() {
       }))
     else return
     setTodoDelete(null)
+    
   }
 
 
