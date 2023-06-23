@@ -31,7 +31,7 @@ function App() {
     todos.map(todo => {
       if (todo.title === task) {
         sameValue = true
-        alert('same')
+        animate('.user-input',{x:[-5,5,-5,5,0]},{duration:0.2})
       }
       return null
     })
@@ -40,7 +40,7 @@ function App() {
     }
     setTodos([{ title: task, isComplete: false }, ...todos])
     setTask('')
-    animate('li', { translateY: [0, 3] }, { duration: 5, type: 'spring', damping: 4 })
+
   }
   const deleteTodo = () => {
     //settodos start
@@ -76,7 +76,7 @@ function App() {
         className='user-input'>
         <div className='task-input'>
 
-          <input type='text' ref={userInput} className='input-tag but border-end-0' placeholder='Set a Task' onChange={(e) => setTask(e.target.value)} />
+          <input id='inputField' type='text' ref={userInput} className='input-tag but border-end-0' placeholder='Set a Task' onChange={(e) => setTask(e.target.value)} />
         </div>
         <motion.button
           whileTap={{ scale: 1.2 }}
@@ -89,10 +89,12 @@ function App() {
           <AnimatePresence>
             {todos.map((todo, i) =>
               <motion.li
-                initial={{ opacity: 0, translateY: 300, scale: 0.1 }}
-                animate={{ opacity: 1, translateY: 0, scale: 1 }}
-                exit={{ opacity: 0, translateY: 300, scale: 0.1 }}
-                transition={{ duration: 1, delay: i * 0.2 }}
+                layout
+                initial={{ opacity: 0, scale: 0.1 }}
+                animate={{ opacity: 1,  scale: 1 }}
+                exit={{ opacity: 0, scale: 0.1 }}
+                transition={{ type:"spring" }}
+                // style={{backgroundColor:"white"}}
                 className='todo todo-create-animate' key={todo.title}>
                 <span>{todo.title}</span>
                 <div className='task-button'>

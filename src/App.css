@@ -1,19 +1,22 @@
 *{
   margin: 0;
   padding: 0;
+  font-family: 'Cabin', sans-serif;
+  letter-spacing: 1px;
 }
 #root{
   height: 100vh;
   background-color: rgb(0, 204, 255);
+  overflow-x: hidden;
+  
 }
 .App {
+  
   height: 100%;
   text-align: center;
   background:linear-gradient(135deg,rgb(255, 130, 0),rgb(255, 255, 0))
 }
-.slashed-text{
-  text-decoration: line-through;
-}
+
 .confirmDelPop{
   position: absolute;
   top: 50%;
@@ -75,12 +78,16 @@ ul{
   font-size: larger;
   border-radius: 1rem;
 }
+.slashed-text{
+  text-decoration: line-through;
+  background-color: rgb(140, 255, 0);
+}
 .task-button .but{
   background-color: transparent;
   margin: 0.6rem 0.4rem;
 }
-.todo *{
-  margin: 0.6rem;
+.todo span,.todo button{
+  margin: 1rem 1.2rem;
 }
 
 .input-tag{
@@ -93,26 +100,8 @@ ul{
 .user-input .icons:hover{
   background-color: rgb(195, 195, 195);
 }
-.todo-create-animate{
-  /* animation-name: todo-create;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  box-shadow: 0px 3px 3px 2px #0000004d; */
-}
-.todo-delete-animate{
 
-}
-@keyframes todo-create {
-  0% {
-opacity: 0;
-scale: 0.8;
-transform: translate3d(0,10rem,0rem);
-  }
-  100%{
-opacity: 1;
-transform: translate3d(0,0,0);
-  }
-}
+
 @media only screen and (max-width:980px){
   *{
     font-size: medium !important;
