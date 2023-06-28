@@ -1,14 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate, motion, AnimatePresence } from 'framer-motion';
 import './App.css';
-
+var initialTask = {title:'',isComplete:false}
 function App() {
-  const [todos, setTodos] = useState([])
-  const [task, setTask] = useState('')
+  const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || [])
+  const [task, setTask] = useState(initialTask)
   const [showConfirm, setShowConfirm] = useState(false)
   const [todoDelete, setTodoDelete] = useState(null)
-  useEffect(() => { deleteTodo() }, [todoDelete])
 
+  useEffect(() => {
+    deleteTodo() 
+  }, [todoDelete])
+
+  useEffect(()=>{
+    var stringifiedTodos = JSON.stringify(todos)
+    localStorage.setItem('todos',stringifiedTodos)
+    console.log(JSON.parse(localStorage.getItem('todos')))
+  },[todos])
+
+
+  
   const confirmDelVarient = {
     hidden: {
       y: -1200
@@ -25,26 +36,28 @@ function App() {
   }
 
   const userInput = useRef(null)
+
   const addTodo = () => {
     var sameValue = false
     userInput.current.value = ''
     todos.map(todo => {
       if (todo.title === task) {
         sameValue = true
+        // animate error regarding input
         animate('.user-input',{x:[-5,5,-5,5,0]},{duration:0.2})
       }
       return null
     })
     if (sameValue || task === '') {
+      animate('.user-input',{x:[-5,5,-5,5,0]},{duration:0.2})
       return
     }
-    setTodos([{ title: task, isComplete: false }, ...todos])
-    setTask('')
-
+    setTodos([task, ...todos])
+    setTask(initialTask)
   }
   const deleteTodo = () => {
     //settodos start
-    console.log(todoDelete)
+    // console.log(todoDelete)
     if (todoDelete && !todoDelete.isComplete) {
       setShowConfirm(true)
     } else {
@@ -52,7 +65,7 @@ function App() {
     }
   }
   const confirmDelete = () => {
-    console.log('confirm delet', todoDelete)
+    // console.log('confirm delet', todoDelete)
     if (todoDelete)
       setTodos(todos.filter(ele => {
         if (ele === todoDelete) {
@@ -63,6 +76,9 @@ function App() {
     else return
     setTodoDelete(null)
 
+  }
+  const toggle =()=>{
+    setTodos(todos)
   }
 
 
@@ -76,7 +92,13 @@ function App() {
         className='user-input'>
         <div className='task-input'>
 
-          <input id='inputField' type='text' ref={userInput} className='input-tag but border-end-0' placeholder='Set a Task' onChange={(e) => setTask(e.target.value)} />
+          <input id='inputField' type='text' ref={userInput} className='input-tag but border-end-0' placeholder='Set a Task' 
+          onChange={(e) => {setTask({...task, title:e.target.value})}} 
+          onKeyDownCapture={(e)=>{
+            if(e.key === 'Enter'){
+              addTodo()
+            }
+          }}/>
         </div>
         <motion.button
           whileTap={{ scale: 1.2 }}
@@ -94,14 +116,14 @@ function App() {
                 animate={{ opacity: 1,  scale: 1 }}
                 exit={{ opacity: 0, scale: 0.1 }}
                 transition={{ type:"spring" }}
-                // style={{backgroundColor:"white"}}
-                className='todo todo-create-animate' key={todo.title}>
+                iscomplete={todo.isComplete.toString()}
+                className='todo todo-create-animate' key={todo.title}
+                >
                 <span>{todo.title}</span>
                 <div className='task-button'>
                   <button className='but icons' onClick={(e) => {
                     todo.isComplete = !todo.isComplete
-                    e.target.parentElement.parentElement.classList.toggle('slashed-text')
-                    console.log(todo)
+                    setTodos([...todos])
                   }}
                     title='Finished'
                   >✔</button>

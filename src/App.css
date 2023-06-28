@@ -78,7 +78,7 @@ ul{
   font-size: larger;
   border-radius: 1rem;
 }
-.slashed-text{
+li[iscomplete = true]{
   text-decoration: line-through;
   background-color: rgb(140, 255, 0);
 }
