@@ -41,14 +41,14 @@ function App() {
     var sameValue = false
     userInput.current.value = ''
     todos.map(todo => {
-      if (todo.title === task) {
+      if (todo.title === task.title) {
         sameValue = true
         // animate error regarding input
         animate('.user-input',{x:[-5,5,-5,5,0]},{duration:0.2})
       }
       return null
     })
-    if (sameValue || task === '') {
+    if (sameValue || task.title === '') {
       animate('.user-input',{x:[-5,5,-5,5,0]},{duration:0.2})
       return
     }
@@ -77,9 +77,7 @@ function App() {
     setTodoDelete(null)
 
   }
-  const toggle =()=>{
-    setTodos(todos)
-  }
+  
 
 
   return (
@@ -108,14 +106,14 @@ function App() {
 
       <div className='todo-container'>
         <ul className='todo-list '>
-          <AnimatePresence>
+          <AnimatePresence >
             {todos.map((todo, i) =>
               <motion.li
                 layout
-                initial={{ opacity: 0, scale: 0.1 }}
-                animate={{ opacity: 1,  scale: 1 }}
-                exit={{ opacity: 0, scale: 0.1 }}
-                transition={{ type:"spring" }}
+                initial={{ y:100, scale: 0.1 }}
+                animate={{ y:0,opacity: 1,  scale: 1, }}
+                exit={{  scale:1.2,x:[0,0,0,0,-1000]  }}
+                transition={{duration:0.8,times:[0,0.2,0.3, 0.9, 1]}}
                 iscomplete={todo.isComplete.toString()}
                 className='todo todo-create-animate' key={todo.title}
                 >
@@ -129,7 +127,6 @@ function App() {
                   >✔</button>
                   <button className='but icons' style={{ color: 'red' }} onClick={() => { setTodoDelete(todo) }}
                     title='Delete'> ➖</button>
-
                 </div >
               </motion.li>)}
           </AnimatePresence>
