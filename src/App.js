@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate, motion, AnimatePresence } from 'framer-motion';
 import './App.css';
-var initialTask = {title:'',isComplete:false}
+var initialTask = { title: '', isComplete: false }
 function App() {
   const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || [])
   const [task, setTask] = useState(initialTask)
@@ -9,17 +9,17 @@ function App() {
   const [todoDelete, setTodoDelete] = useState(null)
 
   useEffect(() => {
-    deleteTodo() 
+    deleteTodo()
   }, [todoDelete])
 
-  useEffect(()=>{
+  useEffect(() => {
     var stringifiedTodos = JSON.stringify(todos)
-    localStorage.setItem('todos',stringifiedTodos)
+    localStorage.setItem('todos', stringifiedTodos)
     console.log(JSON.parse(localStorage.getItem('todos')))
-  },[todos])
+  }, [todos])
 
 
-  
+
   const confirmDelVarient = {
     hidden: {
       y: -1200
@@ -40,18 +40,17 @@ function App() {
   const addTodo = () => {
     var sameValue = false
     userInput.current.value = ''
-    todos.map(todo => {
-      if (todo.title === task.title) {
+    // checke if task is null or wheather each value is equal to already listed task
+    for (var todo of todos) {
+      console.log(todo)
+      if ((todo.title === task.title) || (sameValue || task.title === '')) {
         sameValue = true
-        // animate error regarding input
-        animate('.user-input',{x:[-5,5,-5,5,0]},{duration:0.2})
+        console.log(sameValue)
+        animate('.user-input', { x: [-5, 5, -5, 5, 0] }, { duration: 0.2 })
+        return
       }
-      return null
-    })
-    if (sameValue || task.title === '') {
-      animate('.user-input',{x:[-5,5,-5,5,0]},{duration:0.2})
-      return
     }
+
     setTodos([task, ...todos])
     setTask(initialTask)
   }
@@ -77,7 +76,7 @@ function App() {
     setTodoDelete(null)
 
   }
-  
+
 
 
   return (
@@ -90,13 +89,12 @@ function App() {
         className='user-input'>
         <div className='task-input'>
 
-          <input id='inputField' type='text' ref={userInput} className='input-tag but border-end-0' placeholder='Set a Task' 
-          onChange={(e) => {setTask({...task, title:e.target.value})}} 
-          onKeyDownCapture={(e)=>{
-            if(e.key === 'Enter'){
-              addTodo()
-            }
-          }}/>
+          <input id='inputField' type='text' ref={userInput} className='input-tag but border-end-0' placeholder='Set a Task'
+            onChange={(e) => { setTask({ ...task, title: e.target.value }) }}
+            onKeyDownCapture={(e) => { if (e.key === 'Enter') { addTodo() } }}
+            autoComplete='off'
+            maxLength="50"
+          />
         </div>
         <motion.button
           whileTap={{ scale: 1.2 }}
@@ -104,30 +102,34 @@ function App() {
           className='but border-start-0 icons' onClick={addTodo}>➡</motion.button>
       </motion.div>
 
-      <div className='todo-container'>
+      <div className=''>
         <ul className='todo-list '>
           <AnimatePresence >
             {todos.map((todo, i) =>
               <motion.li
                 layout
-                initial={{ y:100, scale: 0.1 }}
-                animate={{ y:0,opacity: 1,  scale: 1, }}
-                exit={{  scale:1.2,x:[0,0,0,0,-1000]  }}
-                transition={{duration:0.8,times:[0,0.2,0.3, 0.9, 1]}}
+                initial={{ y: 100, scale: 0.1 }}
+                animate={{ y: 0, opacity: 1, scale: 1, }}
+                exit={{ scale: 1.2, x: [0, 0, 0, 0, -1000] }}
+                transition={{ duration: 0.8, times: [0, 0.2, 0.3, 0.9, 1] }}
                 iscomplete={todo.isComplete.toString()}
-                className='todo todo-create-animate' key={todo.title}
-                >
-                <span>{todo.title}</span>
-                <div className='task-button'>
-                  <button className='but icons' onClick={(e) => {
-                    todo.isComplete = !todo.isComplete
-                    setTodos([...todos])
-                  }}
-                    title='Finished'
-                  >✔</button>
-                  <button className='but icons' style={{ color: 'red' }} onClick={() => { setTodoDelete(todo) }}
-                    title='Delete'> ➖</button>
-                </div >
+                className='todo' key={todo.title}
+              >
+                <div className='todo-container'>
+                  <span>{todo.title}</span>
+                  <div className='task-button'>
+                    <button className='but icons' onClick={(e) => {
+                      todo.isComplete = !todo.isComplete
+                      setTodos([...todos])
+                    }}
+                      title='Finished'
+                    >✔</button>
+                    <button className='but icons' style={{ color: 'red' }} onClick={() => { setTodoDelete(todo) }}
+                      title='Delete'> ➖</button>
+                  </div >
+                </div>
+
+
               </motion.li>)}
           </AnimatePresence>
 
