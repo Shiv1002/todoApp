@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import {toast,Toaster} from 'react-hot-toast';
 import { animate, motion,AnimatePresence } from 'framer-motion';
 import './App.css';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
+
 var initialTask = { title: '', isComplete: false }
+
 function App() {
   const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || [])
   const [task, setTask] = useState(initialTask)
@@ -38,25 +41,32 @@ function App() {
   }
 
   const userInput = useRef(null)
-  const shakeEffect =(className)=>{
-    animate(className, { x: [-5, 5, -5, 5, 0] }, { duration: 0.2 })
+
+  const shakeUserInput =()=>{
+    animate('.user-input', { x: [-5, 5, -5, 5, 0] }, { duration: 0.2 })
   }
+
+  const errorOnInput=(msg)=>{
+    shakeUserInput()
+    toast.error(msg,{duration:1000})
+  }
+
   const addTodo = () => {
     if (task.title.length <5){
-      shakeEffect('.user-input')
+      errorOnInput('Minimum 5 letters!!')
       return
     }
     userInput.current.value = ''
     // checke if task is null or wheather each value is equal to already listed task
     for (var todo of todos) {
 
-      console.log(todo)
-      if ((todo.title === task.title)) {
-        shakeEffect('.user-input')
+      // console.log(todo)
+      if ((todo.title.toUpperCase() === task.title.toUpperCase())) {
+        errorOnInput(`${task.title} is already in list`)
         return
       }
     }
-
+    // console.log(task.title.toCam())
     setTodos([task, ...todos])
     setTask(initialTask)
   }
@@ -82,17 +92,18 @@ function App() {
     setTodoDelete(null)
 
   }
+  
 
 
 
   return (
     <div className="App">
-
+      <Toaster/>
       <TodoInput userInput={userInput} task={task} setTask={setTask} AddTodo={addTodo}/>
       <ul className="todo-list ">
-        <AnimatePresence>
+        {/* <AnimatePresence> */}
           <TodoList todos={todos} setTodos={setTodos} setTodoDelete={setTodoDelete} />
-        </AnimatePresence>
+        {/* </AnimatePresence> */}
       </ul>
 
       <motion.div

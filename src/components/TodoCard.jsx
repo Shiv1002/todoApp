@@ -1,11 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-export default function TodoCard({ todo, setTodos, setTodoDelete }) {
+export default function TodoCard({ todos, todo, setTodos, setTodoDelete }) {
   const o = { initial: { y: 100, scale: 0.1 } };
+
   return (
     <>
       <motion.li
-        layout
         initial={o.initial}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ scale: 1.2, x: [0, 0, 0, 0, -1000] }}
