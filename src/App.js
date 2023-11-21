@@ -38,16 +38,21 @@ function App() {
   }
 
   const userInput = useRef(null)
- 
+  const shakeEffect =(className)=>{
+    animate(className, { x: [-5, 5, -5, 5, 0] }, { duration: 0.2 })
+  }
   const addTodo = () => {
-
+    if (task.title.length <5){
+      shakeEffect('.user-input')
+      return
+    }
     userInput.current.value = ''
     // checke if task is null or wheather each value is equal to already listed task
     for (var todo of todos) {
 
       console.log(todo)
       if ((todo.title === task.title)) {
-        animate('.user-input', { x: [-5, 5, -5, 5, 0] }, { duration: 0.2 })
+        shakeEffect('.user-input')
         return
       }
     }
@@ -85,7 +90,7 @@ function App() {
 
       <TodoInput userInput={userInput} task={task} setTask={setTask} AddTodo={addTodo}/>
       <ul className="todo-list ">
-        <AnimatePresence      >
+        <AnimatePresence>
           <TodoList todos={todos} setTodos={setTodos} setTodoDelete={setTodoDelete} />
         </AnimatePresence>
       </ul>
