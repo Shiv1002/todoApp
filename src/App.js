@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { animate, motion } from 'framer-motion';
+import { animate, motion,AnimatePresence } from 'framer-motion';
 import './App.css';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
@@ -84,8 +84,11 @@ function App() {
     <div className="App">
 
       <TodoInput userInput={userInput} task={task} setTask={setTask} AddTodo={addTodo}/>
-      <TodoList todos={todos} setTodos={setTodos} setTodoDelete={setTodoDelete} />
-
+      <ul className="todo-list ">
+        <AnimatePresence      >
+          <TodoList todos={todos} setTodos={setTodos} setTodoDelete={setTodoDelete} />
+        </AnimatePresence>
+      </ul>
 
       <motion.div
         variants={confirmDelVarient}
@@ -99,6 +102,7 @@ function App() {
           <button style={{ color: 'white', backgroundColor: 'rgb(0, 204, 255)' }} className='but' onClick={() => { setShowConfirm(false); setTodoDelete(null) }}>Cancel</button>
         </div>
       </motion.div>
+      
       {
         showConfirm && <motion.div className='overlay'></motion.div>
       }
