@@ -87,12 +87,12 @@ ul{
   width: 70%;
   overflow-wrap: break-word;
 }
-li[iscomplete = true]{
+div[iscomplete = true]{
   text-decoration: line-through;
-  background-color: rgb(140, 255, 0);
+  background-color: rgb(163, 255, 51);
 }
 .task-button .but{
-  background-color: transparent;
+  background: transparent;
   margin: 0.6rem 0.4rem;
 }
 .todo span,.todo button{
